@@ -102,7 +102,7 @@ def main():
     if not os.path.exists(result_folder):
         os.makedirs(result_folder)
     logger = logging.getLogger(__name__)
-    logname = model.__class__.__name__ + '_' + args.sess + \
+    logname = args.model_name + '_' + args.sess + \
         '_' + args.opt_level + '_' + str(args.seed) + '.log'
     logfile = os.path.join(result_folder, logname)
     if os.path.exists(logfile):
@@ -136,8 +136,8 @@ def main():
             train_loss += loss.item() * target.size(0)
             total += target.size(0)
             correct += (preds_top_class.view(target.shape) == target).sum().item()
-            if batch_idx > 150:
-                break
+            # if batch_idx > 150:
+            #     break
 
         return (train_loss / batch_idx, 100. * correct / total)
 
@@ -158,8 +158,8 @@ def main():
                 test_loss += loss.item() * target.size(0)
                 total += target.size(0)
                 correct += (preds_top_class.view(target.shape) == target).sum().item()
-                if batch_idx > 150:
-                    break
+                # if batch_idx > 150:
+                #     break
         
         return (test_loss / batch_idx, 100. * correct / total)
             
