@@ -1,0 +1,2 @@
+[2021/06/12 21:33:58] - Namespace(resume=False, sess='default', seed=70082353, batch_size=120, epochs=20, image_size=256, image_crop=224, data_directory='../ImageNet', data_classname='../ImageNet/LOC_synset_mapping.txt', opt_level='O1', model_name='efficientnet-b1')
+[2021/06/12 21:33:58] - Epoch 	 Seconds 	 	 Train Loss 	 Train Acc
