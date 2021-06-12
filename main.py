@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 # pre-define model: https://github.com/lukemelas/EfficientNet-PyTorch
 from efficientnet.model import EfficientNet
+from utils import *
 
 parser = argparse.ArgumentParser( description='PyTorch efficientnet model playground')
 parser.add_argument('--resume', '-r',       action='store_true',              help='resume from checkpoint')
@@ -40,32 +41,10 @@ def main():
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed(args.seed)
-    # load dataset (Imagenet) TODO: make a class for dataloader
-    print('==> Preparing ImageNet dataset..')
-    mean = (0.485, 0.456, 0.406)
-    std = (0.229, 0.224, 0.225)
-    train_transform = transforms.Compose([
-        transforms.Resize((args.image_size,args.image_size)),
-        transforms.RandomResizedCrop(args.image_crop),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize(mean, std), #
-    ])
-    test_transform = transforms.Compose([
-        transforms.Resize((args.image_size,args.image_size)),
-        transforms.CenterCrop(args.image_crop),
-        transforms.ToTensor(),
-        transforms.Normalize(mean, std),
-    ])
-    train_dataset = datasets.ImageFolder(root=args.data_directory+'/train', \
-        transform=train_transform)
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size,\
-        shuffle=True, drop_last=True, num_workers=8, pin_memory=True)
-    test_dataset = datasets.ImageFolder(root=args.data_directory+'/val', \
-        transform=test_transform)
-    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size,\
-        shuffle=True, drop_last=True, num_workers=8, pin_memory=True)
-    # load the class label
+    # load dataset (Imagenet)
+    train_loader, test_loader = get_loaders(args.data_directory, args.batch_size, \
+                                            args.image_size, args.image_crop)
+    # load the class label (Imagenet)
     classPath = args.data_classname
     classes = list()
     with open(classPath) as class_file:
