@@ -52,7 +52,8 @@ BlockArgs.__new__.__defaults__ = (None,) * len(BlockArgs._fields)
 
 # Swish activation function
 if hasattr(nn, 'SiLU'):
-    Swish = nn.SiLU
+    print("Using SiLU")
+    Swish = nn.ReLU
 else:
     # For compatibility with old PyTorch versions
     class Swish(nn.Module):
